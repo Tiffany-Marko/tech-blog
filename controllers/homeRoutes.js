@@ -36,13 +36,13 @@ router.get("/post/:id",(req,res)=>{
     })
 })
 
-router.get("/login",(req,res)=>{
-    if(req.session.logged_in){
-        return res.redirect("/")
+// router.get("/login",(req,res)=>{
+//     if(req.session.logged_in){
+//         return res.redirect("/")
         
-    } //loging handlebars is needed
-    res.render("login")
-})
+//     } //loging handlebars is needed
+//     res.render("login")
+// })
 
 router.get("/signup",(req,res)=>{
     if(!req.session.logged_in){

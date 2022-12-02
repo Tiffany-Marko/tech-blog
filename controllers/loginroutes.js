@@ -7,6 +7,9 @@ const {User,Post,Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get("/", withAuth,async (req,res)=>{
+    // if(!req.session.logged_in){
+    //     return res.redirect("/")
+    // }
     res.render("login")
 }) 
 module.exports = router 
