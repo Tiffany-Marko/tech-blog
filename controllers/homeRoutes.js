@@ -45,7 +45,7 @@ router.get("/post/:id",(req,res)=>{
 // })
 
 router.get("/signup",(req,res)=>{
-    if(!req.session.logged_in){
+    if(!req.session && !req.session.username){
         return res.redirect("/")
     }
     res.render('signup');

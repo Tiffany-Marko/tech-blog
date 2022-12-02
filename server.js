@@ -15,7 +15,8 @@ const sess = {
     db: sequelize,
   }),
   resave: false, 
-  proxy: true, 
+  // proxy: true, 
+  saveUninitialized: true
 }
 app.use(session(sess))
 
@@ -26,7 +27,8 @@ app.set('views', './views');
 
 app.use(routes)
 
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+sequelize.sync({force:false}).then(()=> {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
 })
