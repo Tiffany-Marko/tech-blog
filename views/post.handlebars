@@ -1,0 +1,16 @@
+<h1>
+    {{post.post_title}}
+</h1>
+<h3>
+    {{post.post_body}}
+</h3>
+<button id = "post-comment-button">
+    add a comment
+</button>
+<form id = "comment-form" data-post = "{{post.id}}">
+    <div>
+        <label>comment</label>
+        <input type="text" id = "comment-text">
+    </div>
+    <button type="submit">submit</button>
+</form>

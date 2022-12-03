@@ -7,6 +7,12 @@ const {User,Post,Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get("/", withAuth,async (req,res)=>{
+    console.log(req.session)
+    if(!req.session.user){
+        res.redirect("/login")
+        res.end()
+        return;
+    }
     res.render("dashboard")
 })
 

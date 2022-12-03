@@ -7,6 +7,7 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const app = express()
 const port = 3001
 const sequelize = require("./config/connection")
+const path = require("path")
 dotenv.config()
 const sess = {
   secret: process.env.SECRET,
@@ -19,7 +20,7 @@ const sess = {
   saveUninitialized: true
 }
 app.use(session(sess))
-
+app.use(express.static(path.join(__dirname,"public")))
 app.use(express.json())
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');

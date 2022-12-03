@@ -2,8 +2,13 @@
 
 <div>
     {{#each posts}}
-    <p>{{this.post_title}}</p>
+    <a href = "post?title={{this.post_title}}">
+    <div>
+<p>{{this.post_title}}</p>
     <p>{{this.date_created}}</p>
     <p>{{this.post_body}}</p>
+    </div>
+    </a>
+    
     {{/each}}
 </div>

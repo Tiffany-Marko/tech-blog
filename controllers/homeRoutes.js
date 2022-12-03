@@ -1,3 +1,4 @@
+// const { application } = require('express');
 const express = require('express');
 const { rest } = require('lodash');
 const router = express.Router();
@@ -27,9 +28,9 @@ router.get("/post/:id",(req,res)=>{
         include:[User]
     }).then(post=>{
         const postHbsData = post.get({plain:true});
-        console.log(post);
-        console.log("==============")
-        console.log(postHbsData)
+        //console.log(post);
+        //console.log("==============")
+       // console.log(postHbsData)
         postHbsData.logged_in=req.session.logged_in
         res.render("post-details",postHbsData)
         //needs handlebars
@@ -51,5 +52,18 @@ router.get("/signup",(req,res)=>{
     res.render('signup');
     //needs handlebar
 })
+
+router.get("/post", async (req,res)=>{
+    const postTitle = req.query.title
+    const post = await Post.findOne({
+        where: {
+            post_title:postTitle
+        }
+    })
+    console.log("Post: ", post.toJSON());
+    res.render("post", {post:post.toJSON()})
+})
+
+router.post("/post/:postId/comment/new",async(req,res)=>{})
 
 module.exports = router;

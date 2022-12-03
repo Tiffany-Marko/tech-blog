@@ -9,8 +9,8 @@ router.post("/register", async (req, res) =>{
     try{
         const createUser = await User.create(req.body)
         req.session.save(()=>{
-            req.session.userId = createUser.id
-            req.session.username = createUser.username
+            req.session.user = createUser
+            
             res.status(201).json(createUser)
         })
 
@@ -21,24 +21,27 @@ res.status(500).json(error)
 // const createUser = await User.create(req.body)
 })
 router.post("/login", async (req, res) =>{
+
     try{
         const findUser = await User.findOne({
             where:{
                 username:req.body.username
             }
         })
+        console.log("find user: ", findUser)
         if(!findUser) {
-            res.status(404).json({message:"user does not exist"})
+            res.status(403).json({message:"could not log in"})
             return
         }
         const passwordMatches = findUser.checkPassword(req.body.password)
         if(!passwordMatches){
-            res.status(400).json({message:"password is incorrect"})
+            res.status(403).json({message:"could not log in"})
             return
         }
         req.session.save(()=>{
-            req.session.userId = findUser.id
-            req.session.username = findUser.username
+            req.session.user = findUser
+
+            console.log("Ssaved user session")
             res.status(201).json(findUser)
         })
 
