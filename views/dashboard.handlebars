@@ -4,7 +4,29 @@
             Dashboard
         </h1>
     </div>
+    
     <div>
+       {{#each posts}}
+        <div>
+<p contenteditable="true" id = "post-title-{{this.id}}">{{this.post_title}}</p>
+    <p>{{this.date_created}}</p>
+    <p contenteditable="true" id = "post-content-{{this.id}}">{{this.post_body}}</p>
+    <div> 
+        <button class = "update-button" data-post = "{{this.id}}">
+            update
+        </button>
+        <button class = "delete-button" data-post = "{{this.id}}">
+            delete
+        </button>
+    </div>
+    </div>
+      
+    {{/each}} 
+    </div>
+    <div id = "dashboard-form">
+        <h3>
+            add new post
+        </h3>
         <form id = "dashboard-create-form">
             <div>
                 <label>Title</label>
@@ -22,17 +44,6 @@
             </div>
         </form>
     </div>
-    <div>
-       {{#each posts}}
-    <a href = "post?title={{this.post_title}}">
-    <div>
-<p>{{this.post_title}}</p>
-    <p>{{this.date_created}}</p>
-    <p>{{this.post_body}}</p>
-    </div>
-    </a>
-    
-    {{/each}} 
-    </div>
 </div>
+
 <script src = "/js/dashboard.js"></script>

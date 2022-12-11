@@ -1,13 +1,33 @@
-<h1>
-    {{post.post_title}}
-</h1>
-<h3>
-    {{post.post_body}}
-</h3>
-<button id = "post-comment-button">
-    add a comment
-</button>
+    <div class = "post">
+<h1>{{post.post_title}}</h1>
+    <p>{{post.date_created}}</p>
+    <p>
+        <strong>
+            by {{post.user.username}}
+        </strong>
+    </p>
+    <p>{{post.post_body}}</p>
+    <div class = "post-comments">
+        {{#each post.comments}}
+        <p>
+      <strong>
+              by {{this.user.username}}
+      </strong>
+        </p>
+        <p>
+            date: {{this.date_created}}
+        </p>
+        <p>{{this.comment_body}}</p>
+        {{/each}}
+    </div>
+    </div>
+
 <form id = "comment-form" data-post = "{{post.id}}">
+    <div>
+        <h3>
+            add a comment
+        </h3>
+    </div>
     <div>
         <label>comment</label>
         <input type="text" id = "comment-text">

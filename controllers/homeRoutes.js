@@ -6,9 +6,9 @@ const {User,Post,Comment} = require('../models');
 const withAuth = require('../utils/auth');
 //get all posts
 router.get("/",(req,res)=>{
-    Post.findAll({include:[User, Comment]}).then(posts=>{
+    Post.findAll({include:[User, {model:Comment,include:[User]}]}).then(posts=>{
         const postsHbsData = posts.map(post=>post.get({plain:true}))
-        console.log(posts);
+        console.log(JSON.stringify(posts,null,2));
         console.log("==============")
         console.log(postsHbsData)
 
@@ -66,14 +66,57 @@ router.get("/post", async (req,res)=>{
     console.log("Post: ", post.toJSON());
     res.render("post", {post:post.toJSON()})
 })
+router.delete("/post/:postId",withAuth,async(req,res)=>{
+    if(!req.session.user){
+        res.json({message:"not authenticated"})
+        res.end()
+        return;
+    } 
+    await Post.destroy({
+        where:{
+            id:req.params.postId,
+            user_id: req.session.user.id
+        },
+        include:[User]
+        
+    })
+    res.json({message:"deleted post"})
+})
+router.put("/post/:postId",withAuth,async(req,res)=>{
+    if(!req.session.user){
+        res.json({message:"not authenticated"})
+        res.end()
+        return;
+    } 
+    await Post.update({
+        ...req.body,
+        where:{
+            id:req.params.postId,
+            user_id: req.session.user.id
+        },
+        include:[User]
+        
+    })
+    res.json({message:"updated post"})
+})
 
 router.post("/post/:postId/comment/new", withAuth,async(req,res)=>{
     //create a new comment
-    const postId = req.params.postId
+    if(!req.session.user){
+        res.json({message:"not authenticated"})
+        res.end()
+        return;
+    }
+    try{
+        const postId = req.params.postId
     const submittedComment = req.body
     console.log("submitted comment: ",submittedComment)
-    const newComment = await Comment.create(submittedComment)
+    const newComment = await Comment.create({...submittedComment,user_id:req.session.user.id})
     res.json(newComment)
+    } catch(err){
+        console.log(err)
+        res.json({message:"error submitting comment"})
+    }
 })
 router.post("/logout",(req, res)=>{
     console.log("called logout")

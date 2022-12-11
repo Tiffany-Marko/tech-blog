@@ -1,12 +1,80 @@
+body {
+    margin: 0;
+    padding: 50px;
+    box-sizing: border-box;
+    width: 100vw;
+    min-height: 100vh;
+    color: #0A0F0D;
+    font-family: 'Caladea', sans-serif;
+
+}
 a, a:visited {
     color: inherit; 
     text-decoration: none;
     padding-bottom: 2px;
-    border-bottom: 2px solid blue;
+    border-bottom: 2px solid #2A1E5C;
 }
 a div {
     border-bottom: 2px solid palevioletred;
 }
+.nav ul {
+    display: flex;
+    justify-content: space-around;
+    }
+li {
+    all:unset;
+    display: inline-block;
+}
+button {
+    all:unset;
+    color: white;
+    background-color: #3CBBB1;
+    padding: 10px 25px;
+    border-radius: 100vmax;
+    
+}
+input, input:focus, textarea, textarea:focus {
+    all:unset;
+    padding: 2px 0px;
+    border-bottom: 2px solid #3CBBB1;
+    margin-left: 15px;
+}
+textarea, textarea:focus {
+    display:block;
+    height: 150px;
+    padding: 5px 0;
+
+}
+form {
+    margin-bottom: 15px;
+}
+form button {
+    margin-top: 25px;
+}
+form div {
+    margin-bottom: 15px;
+}
+
 .homepage {
-    background-color: skyblue;
+    
+}
+.post-comments {
+    margin-top: 25px;
+    padding: 25px;
+}
+.post {
+    margin-top: 25px;
+    box-shadow: -4px 4px 6px rgba(0, 0, 0, 0.25);
+    padding: 25px;
+    border-radius: 15px;
+}
+.delete-button {
+    background-color:#EE4266;
+    margin: 10px 0;
+}
+#comment-form,#dashboard-form {
+    margin-top: 50px;
+}
+#login-link {
+    border: none;
 }

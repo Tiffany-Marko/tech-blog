@@ -1,15 +1,27 @@
 <div class = "homepage">
     <h1>homepage</h1>
 
-<div>
+<div class = "posts">
     {{#each posts}}
     <a href = "post?title={{this.post_title}}">
-    <div>
+    <div class = "post">
 <p>{{this.post_title}}</p>
     <p>{{this.date_created}}</p>
-    <p>{{this.post_body}}</p>
-    <div>
-        {{#each comments}}
+    <p>
+        <strong>
+            by {{this.user.username}}
+        </strong>
+    </p>
+    <div class = "post-comments">
+        {{#each this.comments}}
+        <p>
+      <strong>
+              by {{this.user.username}}
+      </strong>
+        </p>
+        <p>
+            date: {{this.date_created}}
+        </p>
         <p>{{this.comment_body}}</p>
         {{/each}}
     </div>
