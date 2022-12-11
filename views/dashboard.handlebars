@@ -1,0 +1,38 @@
+<div>
+    <div>
+        <h1>
+            Dashboard
+        </h1>
+    </div>
+    <div>
+        <form id = "dashboard-create-form">
+            <div>
+                <label>Title</label>
+                <input id = "new-post-title" type = "text" name = "new-post-title">
+            </div>
+            <div>
+                <label>
+                    content
+
+                </label>
+                <textarea id = "new-post-content" name= "new-post-content"></textarea>
+            </div>
+            <div>
+                <button type = "submit">submit</button>
+            </div>
+        </form>
+    </div>
+    <div>
+       {{#each posts}}
+    <a href = "post?title={{this.post_title}}">
+    <div>
+<p>{{this.post_title}}</p>
+    <p>{{this.date_created}}</p>
+    <p>{{this.post_body}}</p>
+    </div>
+    </a>
+    
+    {{/each}} 
+    </div>
+</div>
+<script src = "/js/dashboard.js"></script>

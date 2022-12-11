@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tiffany's Tech Blog</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <div>
@@ -21,13 +22,28 @@
                 </a>
             </li>
              <li>
+                {{#if session.user}}
+                <button id = "logout-button">
+                    logout
+                </button>
+                {{else}}
                 <a href = "/login">
                     login
                 </a>
+                {{/if}}
             </li>
         </ul>
     </nav>
 </div>
-    {{{body}}}    
+    {{{body}}}
+    <script>
+        const logoutButton = document.getElementById("logout-button")
+        logoutButton.onclick = async function(){
+            const response = await fetch("/logout",{
+                method:"POST"
+            })
+            location.reload()
+        }
+    </script>    
 </body>
 </html>

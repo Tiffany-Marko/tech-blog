@@ -3,9 +3,10 @@ const express = require('express');
 const { rest } = require('lodash');
 const router = express.Router();
 const {User,Post,Comment} = require('../models');
+const withAuth = require('../utils/auth');
 //get all posts
 router.get("/",(req,res)=>{
-    Post.findAll().then(posts=>{
+    Post.findAll({include:[User, Comment]}).then(posts=>{
         const postsHbsData = posts.map(post=>post.get({plain:true}))
         console.log(posts);
         console.log("==============")
@@ -25,7 +26,7 @@ router.get("/sessions",(req,res)=>{
 //get single post
 router.get("/post/:id",(req,res)=>{
     Post.findByPk(req.params.id,{
-        include:[User]
+        include:[User, Comment]
     }).then(post=>{
         const postHbsData = post.get({plain:true});
         //console.log(post);
@@ -55,15 +56,29 @@ router.get("/signup",(req,res)=>{
 
 router.get("/post", async (req,res)=>{
     const postTitle = req.query.title
+
     const post = await Post.findOne({
         where: {
             post_title:postTitle
-        }
+        },
+        include:[User, Comment]
     })
     console.log("Post: ", post.toJSON());
     res.render("post", {post:post.toJSON()})
 })
 
-router.post("/post/:postId/comment/new",async(req,res)=>{})
+router.post("/post/:postId/comment/new", withAuth,async(req,res)=>{
+    //create a new comment
+    const postId = req.params.postId
+    const submittedComment = req.body
+    console.log("submitted comment: ",submittedComment)
+    const newComment = await Comment.create(submittedComment)
+    res.json(newComment)
+})
+router.post("/logout",(req, res)=>{
+    console.log("called logout")
+    req.session.destroy()
+    res.status(200).json({logout:true})
+})
 
 module.exports = router;

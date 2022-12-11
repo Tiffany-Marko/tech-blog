@@ -1,0 +1,12 @@
+a, a:visited {
+    color: inherit; 
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid blue;
+}
+a div {
+    border-bottom: 2px solid palevioletred;
+}
+.homepage {
+    background-color: skyblue;
+}

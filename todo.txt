@@ -1,0 +1,4 @@
+- render comments
+- post page render author username
+- comments render username and date created
+- readme line 52 

@@ -13,7 +13,25 @@ router.get("/", withAuth,async (req,res)=>{
         res.end()
         return;
     }
-    res.render("dashboard")
+    const userPost = await Post.findAll({
+        where:{
+            "$user.username$": req.session.user.username
+        },
+        include:[User]
+    })
+    console.log("User posts: ", userPost)
+    res.render("dashboard",{posts:userPost.map(post => post.dataValues)})
+})
+router.post("/create", withAuth,async (req,res)=>{
+    const submittedPost = req.body
+    if(!req.session.user){
+        res.redirect("/login")
+        res.end()
+        return;
+    }
+    const newPost = await Post.create({...submittedPost,user_id: req.session.user.id})
+console.log(newPost)
+res.redirect("/")
 })
 
 

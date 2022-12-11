@@ -1,4 +1,5 @@
-<h1>homepage</h1>
+<div class = "homepage">
+    <h1>homepage</h1>
 
 <div>
     {{#each posts}}
@@ -7,8 +8,14 @@
 <p>{{this.post_title}}</p>
     <p>{{this.date_created}}</p>
     <p>{{this.post_body}}</p>
+    <div>
+        {{#each comments}}
+        <p>{{this.comment_body}}</p>
+        {{/each}}
+    </div>
     </div>
     </a>
     
     {{/each}}
+</div>
 </div>
