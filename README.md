@@ -7,3 +7,5 @@ This blog is intended for either student or professional use
 Users of this blog can have their own unique login
 
 Any user of this blog can add a post or comment on another post 
+
+Use `npm run dev` to run the application 

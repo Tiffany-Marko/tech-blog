@@ -85,10 +85,45 @@ router.get("/post", async (req,res)=>{
         where: {
             post_title:postTitle
         },
-        include:[User, Comment]
+        include:[User, {model: Comment, include:[User]}]
     })
     console.log("Post: ", post.toJSON());
     res.render("post", {post:post.toJSON()})
+})
+router.delete("/comment/:commentId",withAuth,async(req,res)=>{
+    if(!req.session.user){
+        res.json({message:"not authenticated"})
+        res.end()
+        return;
+    } 
+    await Comment.destroy({
+        where:{
+            id:req.params.commentId,
+            user_id: req.session.user.id
+        },
+        include:[User]
+        
+    })
+    res.json({message:"deleted comment"})
+})
+router.put("/comment/:commentId",withAuth,async(req,res)=>{
+    if(!req.session.user){
+        res.json({message:"not authenticated"})
+        res.end()
+        return;
+    } 
+    await Comment.update(
+        {
+        ...req.body
+        }, {
+        where:{
+            id:req.params.commentId,
+            user_id: req.session.user.id
+        },
+        include:[User]
+    
+    })
+    res.json({message:"updated comment"})
 })
 router.delete("/post/:postId",withAuth,async(req,res)=>{
     if(!req.session.user){
