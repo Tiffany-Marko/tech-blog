@@ -23,6 +23,17 @@
             date: {{this.date_created}}
         </p>
         <p>{{this.comment_body}}</p>
+        {{#if this.canModify  }}
+        <div> 
+        <button class = "update-button" data-comment = "{{this.id}}">
+            update
+        </button>
+        <button class = "delete-button" data-comment = "{{this.id}}">
+            delete
+        </button>
+        </div>
+        {{/if}}
+
         {{/each}}
     </div>
     </div>

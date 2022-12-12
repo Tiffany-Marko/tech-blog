@@ -1,6 +1,7 @@
 // const { application } = require('express');
 const express = require('express');
 const { rest } = require('lodash');
+const handlebarsHelpers = require("handlebars-helpers")
 const router = express.Router();
 const {User,Post,Comment} = require('../models');
 const withAuth = require('../utils/auth');
@@ -8,13 +9,36 @@ const withAuth = require('../utils/auth');
 router.get("/",(req,res)=>{
     Post.findAll({include:[User, {model:Comment,include:[User]}]}).then(posts=>{
         const postsHbsData = posts.map(post=>post.get({plain:true}))
+        const postWithAuthComments = postsHbsData.map(post => {
+            return {
+                ...post,
+                comments: post.comments.map(comment => {
+                    if(req.session) {
+                        if(req.session.user) {
+                            if(comment.user_id === req.session.user.id) {
+                                return {...comment, canModify: true}
+                            }
+                            else {
+                                return {...comment, canModify: false}
+                            }
+                        }
+                        else {
+                            return {...comment, canModify: false}
+                        }
+                    } else {
+                        return {...comment, canModify: true}
+                    }
+                })
+            }
+        })
         console.log(JSON.stringify(posts,null,2));
         console.log("==============")
         console.log(postsHbsData)
 
         res.render("home",{
             //need handlebar file
-            posts:postsHbsData,
+            posts:postWithAuthComments
+            
             // logged_in:req.session.logged_in
         })
     })
@@ -88,14 +112,16 @@ router.put("/post/:postId",withAuth,async(req,res)=>{
         res.end()
         return;
     } 
-    await Post.update({
-        ...req.body,
+    await Post.update(
+        {
+        ...req.body
+        }, {
         where:{
             id:req.params.postId,
             user_id: req.session.user.id
         },
         include:[User]
-        
+    
     })
     res.json({message:"updated post"})
 })

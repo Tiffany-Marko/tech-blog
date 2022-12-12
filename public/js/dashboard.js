@@ -32,6 +32,7 @@ deleteButtons.forEach(function (button){
         location.reload()
     }
 })
+console.log(updateButtons)
 updateButtons.forEach(function (button){
     button.onclick = async function(){
         console.log("clicked")
